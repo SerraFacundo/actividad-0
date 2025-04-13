@@ -21,7 +21,7 @@ def detail(request, question_id):
 
 def results(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
-    return render(request, "polls/results.html", {"question": question})
+    return render(request, "app/results.html", {"question": question})
 
 
 def vote(request, question_id):
@@ -31,7 +31,7 @@ def vote(request, question_id):
     except (KeyError, Choice.DoesNotExist):
         return render(
             request,
-            "polls/detail.html",
+            "app/detail.html",
             {
                 "question": question,
                 "error_message": "You didn't select a choice.",
@@ -40,7 +40,7 @@ def vote(request, question_id):
     else:
         selected_choice.votes = F("votes") + 1
         selected_choice.save()
-        return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
+        return HttpResponseRedirect(reverse("app:results", args=(question.id,)))
 
 def detail(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
